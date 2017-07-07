@@ -13240,6 +13240,8 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -13249,18 +13251,44 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var NewPlaylist = function (_Component) {
     _inherits(NewPlaylist, _Component);
 
-    function NewPlaylist() {
+    function NewPlaylist(props) {
         _classCallCheck(this, NewPlaylist);
 
-        var _this = _possibleConstructorReturn(this, (NewPlaylist.__proto__ || Object.getPrototypeOf(NewPlaylist)).call(this));
+        var _this = _possibleConstructorReturn(this, (NewPlaylist.__proto__ || Object.getPrototypeOf(NewPlaylist)).call(this, props));
 
         _this.state = {
-            input: ''
+            inputValue: ''
         };
+        _this.handleChange = _this.handleChange.bind(_this);
+        _this.handleSubmit = _this.handleSubmit.bind(_this);
         return _this;
     }
 
     _createClass(NewPlaylist, [{
+        key: 'handleChange',
+        value: function handleChange(event) {
+            console.log("event.target.value", event.target.value);
+            this.setState({
+                inputValue: event.target.value
+            });
+        }
+    }, {
+        key: 'handleSubmit',
+        value: function handleSubmit(event) {
+            //event.preventDefault();
+            console.log("this.state", this.state.inputValue);
+        }
+
+        //   addSong(type, id, comment) {
+        //     const species = type + "s";
+        //     const animalList = this.state[species];
+        //     const animal = animalList.find(animal => animal.id === +id);
+        //     animal.comments.push(comment);
+        //     this.setState({ [species]: animalList });
+        //   }
+
+
+    }, {
         key: 'render',
         value: function render() {
 
@@ -13269,7 +13297,7 @@ var NewPlaylist = function (_Component) {
                 { className: 'well' },
                 _react2.default.createElement(
                     'form',
-                    { className: 'form-horizontal' },
+                    { className: 'form-horizontal', onSubmit: this.handleSubmit },
                     _react2.default.createElement(
                         'fieldset',
                         null,
@@ -13289,7 +13317,12 @@ var NewPlaylist = function (_Component) {
                             _react2.default.createElement(
                                 'div',
                                 { className: 'col-xs-10' },
-                                _react2.default.createElement('input', { className: 'form-control', type: 'text' })
+                                _react2.default.createElement('input', {
+                                    className: 'form-control',
+                                    type: 'text',
+                                    value: this.state.inputValue,
+                                    onChange: this.handleChange
+                                })
                             )
                         ),
                         _react2.default.createElement(
@@ -13300,7 +13333,9 @@ var NewPlaylist = function (_Component) {
                                 { className: 'col-xs-10 col-xs-offset-2' },
                                 _react2.default.createElement(
                                     'button',
-                                    null,
+                                    _defineProperty({
+                                        disabled: !this.state.inputValue
+                                    }, 'disabled', this.state.inputValue.length > 16),
                                     'Create Playlist'
                                 )
                             )
