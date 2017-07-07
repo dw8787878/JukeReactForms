@@ -7,12 +7,12 @@ export default class NewPlaylist extends Component {
   constructor () {
     super();
     this.state = {
-      
+      input : ''
     };
   }
 
   render () {
-    
+
     return (
         <div className="well">
             <form className="form-horizontal">
